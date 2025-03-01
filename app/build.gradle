@@ -30,6 +30,9 @@ android {
 
 
     signingConfigs {
+        debug {
+            // 使用默认debug签名
+        }
         release {
             storeFile file("devdroid.jks")
             storePassword "devdroid110"
@@ -44,10 +47,10 @@ android {
     flavorDimensions = ["default"]
     productFlavors {
         publishNonDefault true //唯一的不同
-        online {
-            dimension "default"
-            applicationIdSuffix  ".online"
-        }
+//        online {
+//            dimension "default"
+//            applicationIdSuffix  ".online"
+//        }
         offline {
             dimension "default"
             applicationIdSuffix  ".offline"
@@ -66,15 +69,20 @@ android {
 
         debug {
             applicationIdSuffix ".debug"
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
 
     }
     //    第三方库使用java1.8
     compileOptions {
-        sourceCompatibility 17
-        targetCompatibility 17
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     namespace 'com.yuyan'
 
     android.applicationVariants.configureEach { variant ->
