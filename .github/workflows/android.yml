@@ -28,42 +28,23 @@ jobs:
         run: chmod +x gradlew
         working-directory: ./
 
+      - name: Decode and create keystore
+        run: |
+          echo "${{ secrets.JKS }}" | base64 --decode > app/devdroid.jks
+          sed 's/PASSWORD/${{ secrets.JKS_SECRET}}/g' app/build.gradle
+
       - name: Build with Gradle
-        run: ./gradlew :yuyansdk:assembleRelease
+        run: ./gradlew assembleRelease
         working-directory: ./
 
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: app/build/outputs/apk/offline/debug
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Create Release
+      - name: Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true
         with:
           token: ${{ secrets.TOKEN }}
           tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref_name }}
-          body: |
-            Android APK Release ${{ github.ref_name }}
-            
-            Changes in this Release:
-            - TODO: Add release notes
+          body: TODO New Release.
           draft: false
           prerelease: false
           files: |
-            ${{steps.sign_app.outputs.signedReleaseFile}}
-
-      - name: Upload APK to Server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_SSH_KEY }}
-          source: "${{steps.sign_app.outputs.signedReleaseFile}}"
-          target: "/root/workspace/android/apk"
-          strip_components: 4
+            app/build/outputs/apk/offline/release/*.apk

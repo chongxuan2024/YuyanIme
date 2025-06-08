@@ -35,9 +35,9 @@ android {
         }
         release {
             storeFile file("devdroid.jks")
-            storePassword "devdroid110"
+            storePassword "PASSWORD"
             keyAlias "devdroid"
-            keyPassword "devdroid110"
+            keyPassword "PASSWORD"
             v1SigningEnabled true
             v2SigningEnabled true
         }
