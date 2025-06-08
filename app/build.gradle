@@ -102,5 +102,5 @@ static def versionNameDate() {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':yuyansdk')
+    offlineImplementation project(path: ':yuyansdk', configuration: 'default')
 }
