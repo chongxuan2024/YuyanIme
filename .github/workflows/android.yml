@@ -24,17 +24,15 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        working-directory: YuyanIme
 
       - name: Build with Gradle
         run: ./gradlew :yuyansdk:assembleRelease
-        working-directory: YuyanIme
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: YuyanIme/app/build/outputs/apk/offline/debug
+          releaseDirectory: app/build/outputs/apk/offline/debug
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
