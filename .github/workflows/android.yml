@@ -24,9 +24,11 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+        working-directory: ./
 
       - name: Build with Gradle
         run: ./gradlew :yuyansdk:assembleRelease
+        working-directory: ./
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
