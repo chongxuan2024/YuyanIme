@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk 35
+    compileSdk 34
     defaultConfig {
         applicationId "com.yuyan.pinyin"
         minSdk 23
-        targetSdk 35
+        targetSdk 34
         versionCode Integer.valueOf(versionCodeDate())
         versionName versionNameDate()
 
