@@ -4,7 +4,6 @@ on:
   push:
      tags:
       - "v*" # Trigger when pushing tags starting with v, e.g. v1.0.0
-
 jobs:
   build:
     runs-on: ubuntu-latest
