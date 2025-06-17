@@ -48,3 +48,4 @@ jobs:
           prerelease: false
           files: |
             app/build/outputs/apk/offline/release/*.apk
+            app/build/outputs/apk/offline/debug/*.apk
