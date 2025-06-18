@@ -31,7 +31,12 @@ android {
 
     signingConfigs {
         debug {
-            // 使用默认debug签名
+            storeFile file("devdroid.jks")
+            storePassword "PASSWORD"
+            keyAlias "devdroid"
+            keyPassword "PASSWORD"
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
         release {
             storeFile file("devdroid.jks")
@@ -67,7 +72,11 @@ android {
         }
 
         debug {
+            // 混淆
+            minifyEnabled true
+            shrinkResources true
             applicationIdSuffix ".debug"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
             signingConfig signingConfigs.debug
         }
 
