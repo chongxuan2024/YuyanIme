@@ -9,8 +9,8 @@ android {
         applicationId "com.yuyan.pinyin"
         minSdk 23
         targetSdk 34
-        versionCode 1  // 固定版本号，需要发布时手动更改
-        versionName "1.0.0"  // 固定版本名，需要发布时手动更改
+        versionCode Integer.valueOf(versionCodeDate())
+        versionName versionNameDate()
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         ndk {
@@ -27,6 +27,7 @@ android {
             abortOnError false
         }
     }
+
 
     signingConfigs {
         debug {
@@ -45,8 +46,13 @@ android {
     //多渠道打包
     flavorDimensions = ["default"]
     productFlavors {
+//        online {
+//            dimension "default"
+//            applicationIdSuffix  ".online"
+//        }
         offline {
             dimension "default"
+            applicationIdSuffix  ".offline"
         }
     }
 
@@ -55,15 +61,18 @@ android {
             // 混淆
             minifyEnabled true
             shrinkResources true
+            applicationIdSuffix  ".release"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
             signingConfig signingConfigs.release
         }
 
         debug {
+            // 混淆
+            applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
         }
-    }
 
+    }
     //    第三方库使用java1.8
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -78,13 +87,20 @@ android {
 
     android.applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
-            outputFileName = "yuyanIme_${defaultConfig.versionName}_${variant.getProductFlavors()[0].name}_${variant.buildType.name}.apk"
+            outputFileName = "yuyanIme_${versionCodeDate()}_${variant.getProductFlavors()[0].name}_${variant.buildType.name}.apk"   // offline      online
         }
     }
+}
+
+static def versionCodeDate() {
+    return new Date().format("yyyyMMddHH", TimeZone.getTimeZone("GMT+8"))
+}
+
+static def versionNameDate() {
+    return new Date().format("yyyyMMdd.HH", TimeZone.getTimeZone("GMT+8"))
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':yuyansdk')
 }
-
