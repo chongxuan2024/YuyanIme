@@ -34,7 +34,7 @@ jobs:
           sed -i 's/PASSWORD/${{ secrets.JKS_SECRET}}/g' app/build.gradle
 
       - name: Build with Gradle
-        run: ./gradlew assemble
+        run: ./gradlew assembleRelease
         working-directory: ./
 
       - name: Release
